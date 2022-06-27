@@ -6,3 +6,12 @@
 td{
 	word-break: break-all;
 }
+.accordion .accordion-header .removepro{
+	margin-top: -18px;
+}
+.theme-white .accordion .accordion-header[aria-expanded="true"] a{
+	color: white;
+}
+.readonly{
+background-color: white !important;
+}

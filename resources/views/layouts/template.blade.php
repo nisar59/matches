@@ -129,5 +129,26 @@
   </div>
     @include('layouts.footer-js')
     @yield('js')
+
+
+<script type="text/javascript">
+
+@if (count($errors) > 0)
+error("Some fields are missing",'Input error');
+@elseif (Session::has('warning'))
+warning('{{ Session::get('warning') }}');
+@elseif (Session::has('success'))
+success('{{ Session::get('success') }}');
+@elseif (Session::has('error'))
+error('{{ Session::get('error') }}');
+@else
+@endif
+
+
+</script>
+
+
+
+
 </body>
 </html>

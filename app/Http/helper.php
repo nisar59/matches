@@ -1,10 +1,21 @@
 <?php
 use Modules\Settings\Entities\Settings;
+use Modules\Products\Entities\Products;
+use Modules\Purchases\Entities\Purchases;
+use Modules\Contacts\Entities\Contacts;
+use App\Models\User;
+
 function AllPermissions()
 {
 	$role=[];
 	$role['users']=['view','add','edit','delete'];
 	$role['permissions']=['view','add','edit','delete'];
+	$role['contacts']=['view','add','edit','delete'];
+	$role['category']=['view','add','edit','delete'];
+	$role['units']=['view','add','edit','delete'];
+	$role['warehousesandshops']=['view','add','edit','delete'];
+	$role['products']=['view','add','edit','delete'];
+	$role['purchases']=['view','add','edit','delete'];
 	$role['settings']=['view','add','edit','delete'];
 
 
@@ -26,4 +37,149 @@ function FileUpload($img, $path){
 function Settings()
 {
 	return Settings::first();
+}
+
+function PaymentMethods()
+{
+	$payment_methods=[];
+
+	$payment_methods=[
+
+		'cash'=>[
+			'title'=>'Cash',
+			'fields'=>[],
+		],
+		'advance'=>[
+			'title'=>'Advance',
+			'fields'=>[],
+		],
+
+		'card'=>[
+			'title'=>'Card',
+			'fields'=>[
+				'input'=>[
+					'label'=>'Card holder name',
+					'name'=>'card_holder_name',
+				],
+				'select'=>[
+					'label'=>'Card Type',
+					'name'=>'card_type',
+					'options'=>[
+						'Credit Card',
+						'Debit Card',
+						'Visa Card',
+						'Master Card',
+					],
+				],
+			],
+		],
+
+		'cheque'=>[
+			'title'=>'Cheque',
+			'fields'=>[
+				'input'=>[
+					'label'=>'Cheque No',
+					'name'=>'cheque_no',
+				],
+			],
+		],
+		'bank_account'=>[
+			'title'=>'Bank Transfer',
+			'fields'=>[
+				'input'=>[
+					'label'=>'Bank Account No',
+					'name'=>'bank_account_no',
+				],
+			],
+		],
+		'other'=>[
+			'title'=>'Other',
+			'fields'=>[
+				'input'=>[
+					'label'=>'Transcation No',
+					'name'=>'transcation_no',
+				],
+			],
+		]
+
+	];
+
+return $payment_methods;
+
+}
+
+function ShippingStatus()
+{
+	$ship=[
+			"processing"=>"Processing",
+			"pending"=>"Pending",
+			"delivered"=>"Delivered",
+
+	];
+
+	return $ship;
+}
+
+function SKU()
+{
+	$sku=\Str::random(10);
+	$pro=Products::where('sku',$sku)->count();
+	if($pro){
+	SKU();
+	}
+	else{
+	return strtoupper($sku);
+	}
+
+}
+
+function ReferenceNO()
+{
+	$rfno=\Str::random(10);
+	$pro=Purchases::where('reference_no',$rfno)->count();
+	if($pro){
+	ReferenceNO();
+	}
+	else{
+	return strtoupper($rfno);
+	}
+}
+
+function Contact($id)
+{
+	$cont=Contacts::find($id);
+	if($cont!=null){
+		return $cont->name;
+	}
+}
+
+function User($id)
+{
+	$user=User::find($id);
+	if($user!=null){
+		return $user->name;
+	}
+}
+
+function ProductName($id)
+{
+	$pro=Products::find($id);
+	if($pro!=null){
+		return $pro->name;
+	}
+
+}
+
+
+function PaymentStatus($total,$paid)
+{
+	if($paid<1){
+		return 'due';
+	}
+	elseif($total==$paid){
+		return 'paid';
+	}
+	else{
+		return 'partial';
+	}
 }

@@ -1,5 +1,13 @@
 {
     "Roles": true,
     "Users": true,
-    "Settings": true
+    "Settings": true,
+    "Contacts": true,
+    "Category": true,
+    "WarehousesAndShops": true,
+    "Units": true,
+    "Products": true,
+    "Purchases": true,
+    "Transactions": true,
+    "StockTransfer": true
 }

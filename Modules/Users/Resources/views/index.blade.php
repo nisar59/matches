@@ -7,7 +7,7 @@ Users
           <div class="section-body">
             <div class="row">
               <div class="col-12">
-                <div class="card">
+                <div class="card card-primary">
                   <div class="card-header">
                     <h4 class="col-md-6">Users</h4>
                     <div class="col-md-6 text-right">

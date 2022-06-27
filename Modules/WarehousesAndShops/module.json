@@ -1,0 +1,13 @@
+{
+    "name": "WarehousesAndShops",
+    "alias": "warehousesandshops",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\WarehousesAndShops\\Providers\\WarehousesAndShopsServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}
