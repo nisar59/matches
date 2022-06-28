@@ -15,23 +15,23 @@ class CreatePurchasesTable extends Migration
     {
         Schema::create('purchases', function (Blueprint $table) {
             $table->id();
-            $table->text('vendor')->nullable();
-            $table->text('order_date')->nullable();
+            $table->integer('vendor')->default(0);
+            $table->text('order_date')->default(now());
             $table->text('reference_no')->nullable();
-            $table->text('total_items')->nullable();
-            $table->text('gross_total')->nullable();
-            $table->text('purchase_total')->nullable();
-            $table->text('payment_amount')->nullable();
-            $table->text('due')->nullable();
-            $table->text('payment_status')->nullable();
+            $table->integer('total_items')->default(0);
+            $table->float('gross_total', 10,2)->default(0.00);
+            $table->float('purchase_total',10,2)->default(0.00);
+            $table->float('payment_amount',10,2)->default(0.00);
+            $table->float('due',10,2)->default(0.00);
+            $table->enum('payment_status',['due','paid','partial'])->default('due');
             $table->text('discount_type')->nullable();
-            $table->text('discount_value')->nullable();
-            $table->text('net_discount')->nullable();
-            $table->text('shipping_status')->nullable();
+            $table->float('discount_value',10,2)->default(0.00);
+            $table->float('net_discount',10,2)->default(0.00);
+            $table->text('shipping_status',['processing','pending','delivered'])->default('processing');
             $table->text('shipping_address')->nullable();
-            $table->text('shipping_charges')->nullable();
+            $table->float('shipping_charges',10,2)->default(0.00);
             $table->text('shipping_detail')->nullable();
-            $table->text('added_by')->nullable();
+            $table->integer('added_by')->default(0);
             $table->timestamps();
         });
     }

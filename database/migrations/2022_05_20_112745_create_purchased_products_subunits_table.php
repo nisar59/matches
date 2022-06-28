@@ -15,9 +15,9 @@ class CreatePurchasedProductsSubunitsTable extends Migration
     {
         Schema::create('purchased_products_subunits', function (Blueprint $table) {
             $table->id();
-            $table->text('purchased_products_id')->nullable();
-            $table->text('sub_unit')->nullable();
-            $table->text('sub_unit_quantity')->nullable();
+            $table->integer('purchased_products_id')->default(0);
+            $table->integer('sub_unit')->default(0);
+            $table->integer('sub_unit_quantity')->default(0);
             $table->timestamps();
         });
     }

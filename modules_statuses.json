@@ -9,5 +9,6 @@
     "Products": true,
     "Purchases": true,
     "Transactions": true,
-    "StockTransfer": true
+    "StockTransfer": true,
+    "Expenses": true
 }

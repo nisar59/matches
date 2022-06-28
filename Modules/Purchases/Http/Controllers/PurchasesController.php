@@ -52,14 +52,14 @@ class PurchasesController extends Controller
                     return $row->reference_no;               
                 })
                 ->editColumn('purchase_total', function ($row) {
-                    return $row->purchase_total;
+                    return number_format($row->purchase_total,2);
                 })                
                 ->editColumn('payment_amount', function ($row) {
-                   return $row->payment_amount;
+                   return number_format($row->payment_amount,2);
                 })
                 ->editColumn('due', function ($row) {
 
-                   return $row->due;
+                   return number_format($row->due,2);
                 })
                 ->editColumn('payment_status', function ($row) {
 

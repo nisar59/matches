@@ -46,7 +46,7 @@ Stock Transfer
   var roles_table = $('#users').DataTable({
               processing: true,
               serverSide: true,
-              ajax: "{{url('products')}}",
+              ajax: "{{url('productsj')}}",
               buttons:[],
               columns: [
                 {data: 'image', name: 'image',  orderable: false, searchable: false},

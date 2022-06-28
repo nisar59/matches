@@ -63,11 +63,33 @@ $type=Request()->type;
             </li>
             @endcan
             @can('stocktransfer.view')
-            <li class="menu-header">Purchases</li>
+            <li class="menu-header">Stock Transfer</li>
             <li class="dropdown @if($pref=='/stocktransfer') active @endif">
               <a href="{{url('stocktransfer')}}" class="nav-link"><i class="fas fa-dolly-flatbed"></i><span>Stock Transfer</span></a>
             </li>
             @endcan
+            @can('expense.view')
+            <li class="menu-header">Stock Transfer</li>
+            <li class="dropdown @if($pref=='/expense') active @endif">
+              <a href="{{url('expense')}}" class="nav-link"><i class="fas fa-clipboard-list"></i><span>Expenses</span></a>
+            </li>
+            @endcan
+            @can('reports.view')
+            <li class="menu-header">Reports</li>
+            <li class="dropdown @if($pref=='/reports') active @endif">
+              <a href="{{url('reports')}}" class="nav-link"><i class="fas fa-file-alt"></i><span>Purchase Reports</span></a>
+            </li>
+            <li class="dropdown @if($pref=='/reports') active @endif">
+              <a href="{{url('reports')}}" class="nav-link"><i class="fas fa-file-alt"></i><span>Sale Reports</span></a>
+            </li>
+            <li class="dropdown @if($pref=='/reports') active @endif">
+              <a href="{{url('reports')}}" class="nav-link"><i class="fas fa-file-alt"></i><span>Stock Reports</span></a>
+            </li>
+            <li class="dropdown @if($pref=='/reports') active @endif">
+              <a href="{{url('reports')}}" class="nav-link"><i class="fas fa-file-alt"></i><span>Expense Reports</span></a>
+            </li>
+            @endcan
+
             @can('settings.view')
             <li class="menu-header">Panel Settings</li>
             <li class="dropdown @if($pref=='/settings') active @endif">

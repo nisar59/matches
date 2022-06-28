@@ -15,14 +15,16 @@ class CreatePurchasedProductsTable extends Migration
     {
         Schema::create('purchased_products', function (Blueprint $table) {
             $table->id();
-            $table->text('purchase_order_id')->nullable();
-            $table->text('warehousesandshops_id')->nullable();
-            $table->text('type')->nullable();
+            $table->integer('purchase_order_id')->default(0);
+            $table->integer('warehousesandshops_id')->default(0);
+            $table->enum('type',['purchase','transferred'])->default('purchase');
             $table->text('product_name')->nullable();
-            $table->text('unit_cost')->nullable();
-            $table->text('quantity')->nullable();
-            $table->text('available_quantity')->nullable();
-            $table->text('total_product_cost')->nullable();
+            $table->float('unit_cost',10,2)->default(0);
+            $table->integer('quantity')->default(0);
+            $table->integer('available_quantity')->default(0);
+            $table->integer('transfer_quantity')->default(0);
+            $table->integer('sold_quantity')->default(0);
+            $table->float('total_product_cost',10,2)->default(0.00);
             $table->timestamps();
         });
     }

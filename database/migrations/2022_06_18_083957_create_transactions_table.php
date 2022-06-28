@@ -15,10 +15,10 @@ class CreateTransactionsTable extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
-            $table->text('model_id')->nullable();
-            $table->text('transaction_type')->nullable();
-            $table->text('payment_amount')->nullable();
-            $table->text('paid_on')->nullable();
+            $table->integer('model_id')->default(0);
+            $table->enum('transaction_type',['purchase','sell','return'])->default('sell');
+            $table->float('payment_amount',10,2)->default(0.00);
+            $table->date('paid_on')->default(now());
             $table->text('method')->nullable();
             $table->text('method_detail')->nullable();
             $table->text('note')->nullable();
