@@ -15,3 +15,6 @@ td{
 .readonly{
 background-color: white !important;
 }
+.card .card-header .btn:not(.note-btn){
+	border-radius: 5px;
+}

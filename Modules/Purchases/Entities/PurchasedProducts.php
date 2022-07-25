@@ -12,7 +12,7 @@ class PurchasedProducts extends Model
     use HasFactory;
 
     protected $table="purchased_products";
-    protected $fillable = ["purchase_order_id","warehousesandshops_id","product_name","unit_cost","quantity","available_quantity","total_product_cost",];
+    protected $fillable = ["purchase_order_id","transfer_id","warehousesandshops_id","type","product_id","unit_cost","quantity","available_quantity","sold_quantity","transfer_quantity","total_product_cost","parent_id"];
     
     protected static function newFactory()
     {
@@ -47,9 +47,11 @@ class PurchasedProducts extends Model
             $data[]=[
                 "purchase_order_id"=>$purpro['poi'],
                 "warehousesandshops_id"=>$purpro['warehousesandshops_id'][$key],
-                "product_name"=>$pp,
+                "type"=>"purchase",
+                "product_id"=>$pp,
                 "unit_cost"=>$purpro['price'][$key],
                 "quantity"=>$purpro['quantity'][$key],
+                "available_quantity"=>$purpro['quantity'][$key],
                 "total_product_cost"=>$purpro['pronet'][$key],
             ];
         }
@@ -64,7 +66,7 @@ class PurchasedProducts extends Model
 
     public function ProductRel()
     {
-        return $this->hasOne(Products::class,'id','product_name');
+        return $this->hasOne(Products::class,'id','product_id');
     }
 
 

@@ -18,7 +18,7 @@ class CreateTransactionsTable extends Migration
             $table->integer('model_id')->default(0);
             $table->enum('transaction_type',['purchase','sell','return'])->default('sell');
             $table->float('payment_amount',10,2)->default(0.00);
-            $table->date('paid_on')->default(now());
+            $table->dateTime('paid_on')->useCurrent();
             $table->text('method')->nullable();
             $table->text('method_detail')->nullable();
             $table->text('note')->nullable();

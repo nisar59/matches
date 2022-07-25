@@ -2,8 +2,13 @@
 use Modules\Settings\Entities\Settings;
 use Modules\Products\Entities\Products;
 use Modules\Purchases\Entities\Purchases;
+use Modules\Purchases\Entities\PurchasedProducts;
 use Modules\Contacts\Entities\Contacts;
 use App\Models\User;
+use Modules\StockTransfer\Entities\StockTransfer;
+use Modules\WarehousesAndShops\Entities\WarehousesAndShops;
+use Modules\Expenses\Entities\Expenses;
+
 
 function AllPermissions()
 {
@@ -16,6 +21,8 @@ function AllPermissions()
 	$role['warehousesandshops']=['view','add','edit','delete'];
 	$role['products']=['view','add','edit','delete'];
 	$role['purchases']=['view','add','edit','delete'];
+	$role['stocktransfer']=['view','add','edit','delete'];
+	$role['expenses']=['view','add','edit','delete'];
 	$role['settings']=['view','add','edit','delete'];
 
 
@@ -145,6 +152,31 @@ function ReferenceNO()
 	}
 }
 
+function TransferReferenceNO()
+{
+	$rfno=\Str::random(10);
+	$pro=StockTransfer::where('transfer_reference_no',$rfno)->count();
+	if($pro){
+	TransferReferenceNO();
+	}
+	else{
+	return strtoupper($rfno);
+	}
+}
+
+function ExpenseReferenceNO()
+{
+	$rfno=\Str::random(10);
+	$pro=Expenses::where('reference_no',$rfno)->count();
+	if($pro){
+	ExpenseReferenceNO();
+	}
+	else{
+	return strtoupper($rfno);
+	}
+}
+
+
 function Contact($id)
 {
 	$cont=Contacts::find($id);
@@ -183,3 +215,26 @@ function PaymentStatus($total,$paid)
 		return 'partial';
 	}
 }
+
+function WarehousesAndShopsName($id)
+{
+	$wap=WarehousesAndShops::find($id);
+	if($wap!=null){
+		return $wap->name;
+	}
+}
+
+function ExpensesCategories()
+{
+	
+	$ec=[
+	"Salary",
+	"Rent",
+	"Bill",
+	"Tea/Coffee/Food",
+	"Freight/Fare",
+	"Other",
+];
+	return $ec;
+}
+

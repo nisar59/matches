@@ -31,11 +31,11 @@ Purchases
                     </div>
                     <div class="form-group col-md-4">
                       <label>Order Date</label>
-                      <input type="date" name="order_date" class="form-control datepicker">
+                      <input type="text" name="order_date" autocomplete="off" class="form-control datepicker">
                     </div>
                     <div class="form-group col-md-4">
                       <label>Warehouse Or Shop</label>
-                      <select class="form-control" name="warehousesandshops_id">
+                      <select class="form-control select2" name="warehousesandshops_id">
                         @foreach($data['warehousesandshops'] as $ws)
                         <option value="{{$ws->id}}">{{$ws->name}}</option>
                         @endforeach
@@ -169,7 +169,7 @@ Purchases
                       <div class="col-md-6">
                         <div class="form-group">
                           <label>Paid on</label>
-                          <input type="date" class="form-control datepicker" name="payment_date">
+                          <input type="text" class="form-control datepicker" name="payment_date">
                         </div>
                       </div>
                     </div>
@@ -177,7 +177,7 @@ Purchases
                       <div class="col-md-12">
                         <div class="form-group">
                           <label>Payment Method</label>
-                          <select class="form-control payment_method" name="payment_method">
+                          <select class="form-control payment_method select2" name="payment_method">
                             @foreach(PaymentMethods() as $key=> $pmt)
                             <option value="{{$key}}">{{$pmt['title']}}</option>
                             @endforeach

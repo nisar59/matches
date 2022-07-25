@@ -15,6 +15,13 @@ $type=Request()->type;
             <li class="dropdown @if($pref=='') active @endif">
               <a href="{{url('/')}}" class="nav-link"><i class="fas fa-desktop"></i><span>Dashboard</span></a>
             </li>
+
+
+            <li class="menu-header">Users</li>
+            <li class="dropdown @if($pref=='/users' OR $pref=='/roles') active @endif">
+              <a href="#" class="menu-toggle nav-link has-dropdown"><i
+                  class="fas fa-user-friends"></i><span>Users</span></a>
+            <ul class="dropdown-menu">
             @can('users.view')
             <li class="dropdown @if($pref=='/users') active @endif">
               <a href="{{url('users')}}" class="nav-link"><i class="fas fa-user-friends"></i><span>Users</span></a>
@@ -23,7 +30,12 @@ $type=Request()->type;
             @can('permissions.view')
             <li class="dropdown @if($pref=='/roles') active @endif"><a class="nav-link" href="{{url('roles')}}"><i class="fas fa-hands-helping"></i><span>Roles & Permissions</span></a></li>
             @endcan
-            @can('contacts.view')
+          </ul>
+          </li>
+          
+
+            @can('contacts.view')          
+            <li class="menu-header">Contacts</li>
             <li class="dropdown @if($pref=='/contacts') active @endif">
               <a href="#" class="menu-toggle nav-link has-dropdown"><i
                   class="fas fa-address-book"></i><span>Contacts</span></a>
@@ -31,6 +43,22 @@ $type=Request()->type;
                 <li class="@if($type=='vendor') active @endif"><a class="nav-link" href="{{url('contacts?type=vendor')}}">Vendors</a></li>
                 <li class="@if($type=='customer') active @endif"><a class="nav-link" href="{{url('contacts?type=customer')}}">Customers</a></li>
               </ul>
+            </li>
+            @endcan
+
+
+
+
+
+
+            <li class="menu-header">Products</li>
+            <li class="dropdown @if($pref=='/products' OR $pref=='/category' OR $pref=='/units' OR $pref=='/warehousesandshops') active @endif">
+              <a href="#" class="menu-toggle nav-link has-dropdown"><i
+                  class="fas fa-cubes"></i><span>Products</span></a>
+            <ul class="dropdown-menu">
+            @can('products.view')
+            <li class="dropdown @if($pref=='/products') active @endif">
+              <a href="{{url('products')}}" class="nav-link"><i class="fas fa-cubes"></i><span>Products</span></a>
             </li>
             @endcan
             @can('category.view')
@@ -48,13 +76,10 @@ $type=Request()->type;
               <a href="{{url('warehousesandshops')}}" class="nav-link"><i class="fas fa-store-alt"></i><span>Warehouses & Shops</span></a>
             </li>
             @endcan
+          </ul>
+        </li>
 
-            @can('products.view')
-            <li class="menu-header">Products</li>
-            <li class="dropdown @if($pref=='/products') active @endif">
-              <a href="{{url('products')}}" class="nav-link"><i class="fas fa-cubes"></i><span>Products</span></a>
-            </li>
-            @endcan
+
 
             @can('purchases.view')
             <li class="menu-header">Purchases</li>
@@ -62,33 +87,54 @@ $type=Request()->type;
               <a href="{{url('purchases')}}" class="nav-link"><i class="fas fa-dolly-flatbed"></i><span>Purchases</span></a>
             </li>
             @endcan
+
+
+
             @can('stocktransfer.view')
             <li class="menu-header">Stock Transfer</li>
             <li class="dropdown @if($pref=='/stocktransfer') active @endif">
-              <a href="{{url('stocktransfer')}}" class="nav-link"><i class="fas fa-dolly-flatbed"></i><span>Stock Transfer</span></a>
+              <a href="{{url('stocktransfer')}}" class="nav-link"><i class="fas fa-shipping-fast"></i><span>Stock Transfer</span></a>
             </li>
             @endcan
+
+
+
+
+
             @can('expense.view')
-            <li class="menu-header">Stock Transfer</li>
-            <li class="dropdown @if($pref=='/expense') active @endif">
-              <a href="{{url('expense')}}" class="nav-link"><i class="fas fa-clipboard-list"></i><span>Expenses</span></a>
+            <li class="menu-header">Expenses</li>
+            <li class="dropdown @if($pref=='/expenses') active @endif">
+              <a href="{{url('expenses')}}" class="nav-link"><i class="fas fa-clipboard-list"></i><span>Expenses</span></a>
             </li>
             @endcan
+
+
+
+
             @can('reports.view')
             <li class="menu-header">Reports</li>
             <li class="dropdown @if($pref=='/reports') active @endif">
-              <a href="{{url('reports')}}" class="nav-link"><i class="fas fa-file-alt"></i><span>Purchase Reports</span></a>
+              <a href="#" class="menu-toggle nav-link has-dropdown"><i
+                  class="fas fa-chart-bar"></i><span>Reports</span></a>
+              <ul class="dropdown-menu">
+            <li class="dropdown @if($pref=='/reports') active @endif">
+              <a href="{{url('purchases/report')}}" class="nav-link"><i class="fas fa-file-alt"></i><span>Purchase Reports</span></a>
             </li>
             <li class="dropdown @if($pref=='/reports') active @endif">
-              <a href="{{url('reports')}}" class="nav-link"><i class="fas fa-file-alt"></i><span>Sale Reports</span></a>
+              <a href="{{url('stocktransfer/report')}}" class="nav-link"><i class="fas fa-file-alt"></i><span>Stock Transfer Reports</span></a>
             </li>
             <li class="dropdown @if($pref=='/reports') active @endif">
-              <a href="{{url('reports')}}" class="nav-link"><i class="fas fa-file-alt"></i><span>Stock Reports</span></a>
+              <a href="{{url('products/stock-report')}}" class="nav-link"><i class="fas fa-file-alt"></i><span>Products Stock Reports</span></a>
             </li>
             <li class="dropdown @if($pref=='/reports') active @endif">
-              <a href="{{url('reports')}}" class="nav-link"><i class="fas fa-file-alt"></i><span>Expense Reports</span></a>
+              <a href="{{url('expenses/report')}}" class="nav-link"><i class="fas fa-file-alt"></i><span>Expense Reports</span></a>
             </li>
-            @endcan
+          </ul>
+        </li>
+        @endcan
+
+
+
 
             @can('settings.view')
             <li class="menu-header">Panel Settings</li>

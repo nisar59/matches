@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\Units\Entities\Units;
 use Modules\Category\Entities\Category;
+use Modules\Purchases\Entities\PurchasedProducts;
 
 class Products extends Model
 {
@@ -27,4 +28,10 @@ class Products extends Model
     {
         return $this->belongsTo(Units::class, 'pricing_unit');
     }
+
+    public function ProductsStock()
+    {
+        return $this->hasMany(PurchasedProducts::class, 'product_id','id');
+    }
+
 }

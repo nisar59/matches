@@ -17,6 +17,8 @@ use Modules\WarehousesAndShops\Entities\WarehousesAndShops;
 use Yajra\DataTables\Facades\DataTables;
 use Auth;
 use DB;
+use Mpdf\Mpdf;
+use Carbon;
 class PurchasesController extends Controller
 {
     /**
@@ -26,7 +28,31 @@ class PurchasesController extends Controller
     public function index()
     {
     if (request()->ajax()) {
-        $purchases=Purchases::select('*')->orderBy('id','ASC')->get();
+        $req=request();
+        $purchases=Purchases::select('*')->orderBy('id','ASC');
+
+        if($req->vendor!=null){
+            $purchases->where('vendor',$req->vendor);
+        }
+        if($req->reference_no!=null){
+            $purchases->where('reference_no',$req->reference_no);
+        }
+        if($req->payment_status!=null){
+            $purchases->where('payment_status',$req->payment_status);
+        }
+        if($req->shipping_status!=null){
+            $purchases->where('shipping_status',$req->shipping_status);
+        }
+        if($req->order_date!=null){
+            $daterange=explode('-', $req->order_date);
+            $from=Carbon::parse($daterange[0])->format('Y-m-d');
+            $to=Carbon::parse($daterange[1])->format('Y-m-d');
+
+            $purchases->whereDate('order_date','>=',$from)->whereDate('order_date','<=',$to);   
+        }
+
+
+        $purchases->get();
             return DataTables::of($purchases)
                 ->addColumn('action', function ($row) {
                     $action='';
@@ -75,7 +101,99 @@ class PurchasesController extends Controller
                 ->rawColumns(['vendor','added_by','payment_status','action'])
                 ->make(true);
     }
-        return view('purchases::index');
+
+
+
+        $this->data['vendors']=Contacts::Where('contact_type','vendor')->get();
+
+        return view('purchases::index')->withData($this->data);
+    }
+
+
+    public function report()
+    {
+    if (request()->ajax()) {
+        $req=request();
+        $purchases=Purchases::select('*')->orderBy('id','ASC');
+
+        if($req->vendor!=null){
+            $purchases->where('vendor',$req->vendor);
+        }
+        if($req->reference_no!=null){
+            $purchases->where('reference_no',$req->reference_no);
+        }
+        if($req->payment_status!=null){
+            $purchases->where('payment_status',$req->payment_status);
+        }
+        if($req->shipping_status!=null){
+            $purchases->where('shipping_status',$req->shipping_status);
+        }
+        if($req->order_date!=null){
+            $daterange=explode('-', $req->order_date);
+            $from=Carbon::parse($daterange[0])->format('Y-m-d');
+            $to=Carbon::parse($daterange[1])->format('Y-m-d');
+
+            $purchases->whereDate('order_date','>=',$from)->whereDate('order_date','<=',$to);   
+        }
+
+
+        $purchases->get();
+            return DataTables::of($purchases)
+                ->editColumn('vendor', function ($row) {
+                    return '<a href="'.url('contacts/edit/'.$row->vendor).'">'.Contact($row->vendor).'</a>';
+                })
+                ->editColumn('order_date', function ($row) {
+                    return $row->order_date;
+                })
+                ->editColumn('reference_no', function ($row) {
+                    return $row->reference_no;               
+                })
+                ->editColumn('purchase_total', function ($row) {
+                    return number_format($row->purchase_total,2);
+                })                
+                ->editColumn('payment_amount', function ($row) {
+                   return number_format($row->payment_amount,2);
+                })
+                ->editColumn('due', function ($row) {
+
+                   return number_format($row->due,2);
+                })
+                ->editColumn('payment_status', function ($row) {
+
+                    return '<a href="javascript:void(0)" class="btn btn-primary btn-sm payment-transactions" data-href="'.url('purchases/payment-transactions/'.$row->id).'">'.ucfirst($row->payment_status).'</a>';
+                })
+                ->editColumn('shipping_status', function ($row) {
+                    return $row->shipping_status;
+                })
+                ->editColumn('added_by', function ($row) {
+                return '<a href="'.url('users/edit/'.$row->added_by).'">'.User($row->added_by).'</a>';                
+                })
+
+                ->rawColumns(['vendor','added_by','payment_status'])
+                ->make(true);
+    }
+
+
+
+        $this->data['vendors']=Contacts::Where('contact_type','vendor')->get();
+
+        return view('purchases::purchase-report')->withData($this->data);
+    }
+
+    public function pdfexport()
+    {
+        $this->data['purchases']=Purchases::all();
+        $html=view('purchases::export-pdf')->withData($this->data)->render();
+
+        $mpdf = new Mpdf(['orientation'=>'L',]);
+        $mpdf->AddPageByArray([
+            'margin-left' => 5,
+            'margin-right' => 5,
+            'margin-top' => 2,
+            'margin-bottom' => 0,
+        ]);
+        $mpdf->WriteHTML($html);
+        $mpdf->Output();
     }
 
     /**
@@ -308,7 +426,7 @@ class PurchasesController extends Controller
 
         } catch (Exception $e) {
 
-            return redirect('error')->with('error', 'Something went wrong');
+            return redirect('purchases')->with('error', 'Something went wrong');
 
         }
         

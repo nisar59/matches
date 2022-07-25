@@ -31,11 +31,11 @@ Purchases
                     </div>
                     <div class="form-group col-md-4">
                       <label>Order Date</label>
-                      <input type="date" name="order_date" value="{{$data['purchase']->order_date}}" class="form-control datepicker">
+                      <input type="text" name="order_date" value="{{$data['purchase']->order_date}}" class="form-control datepicker">
                     </div>
                     <div class="form-group col-md-4">
                       <label>Warehouse Or Shop</label>
-                      <select class="form-control" name="warehousesandshops_id">
+                      <select class="form-control select2" name="warehousesandshops_id">
                         @foreach($data['warehousesandshops'] as $ws)
                         <option value="{{$ws->id}}" @if($ws->id==$data['purchase']->warehousesandshops_id) selected @endif>{{$ws->name}}</option>
                         @endforeach

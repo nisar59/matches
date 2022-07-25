@@ -508,13 +508,13 @@ $(function () {
   if (jQuery().daterangepicker) {
     if ($(".datepicker").length) {
       $(".datepicker").daterangepicker({
-        locale: { format: "YYYY-MM-DD" },
+        locale: { format: "YYYY/MM/DD" },
         singleDatePicker: true
       });
     }
     if ($(".datetimepicker").length) {
       $(".datetimepicker").daterangepicker({
-        locale: { format: "YYYY-MM-DD hh:mm" },
+        locale: { format: "YYYY/MM/DD hh:mm" },
         singleDatePicker: true,
         timePicker: true,
         timePicker24Hour: true
@@ -522,9 +522,20 @@ $(function () {
     }
     if ($(".daterange").length) {
       $(".daterange").daterangepicker({
-        locale: { format: "YYYY-MM-DD" },
+        locale: { format: "YYYY/MM/DD" },
+          ranges: {
+              'Today': [moment(), moment()],
+              'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+              'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+              'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+              'This Month': [moment().startOf('month'), moment().endOf('month')],
+              'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
+              'This Financial Year': [moment().startOf('year'), moment().endOf('year')]
+            },
         drops: "down",
-        opens: "right"
+        opens: "right",
+        startDate: moment().startOf('year'),
+        endDate: moment().endOf('year')
       });
     }
   }

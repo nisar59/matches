@@ -19,6 +19,8 @@ Route::group(['prefix'=>'purchases','middleware' => ['permission:purchases.view'
     Route::get('/remove-sub-unit/{id}', 'PurchasesController@removesubunit');
     Route::get('/remove-pro/{id}', 'PurchasesController@removepro');
     Route::get('/payment-transactions/{id}', 'PurchasesController@paymenttransactions');
+    Route::get('/export-pdf', 'PurchasesController@pdfexport');
+    Route::get('/report', 'PurchasesController@report');
 
 });
 

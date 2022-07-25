@@ -13,6 +13,8 @@
 
 Route::group(['prefix'=>'products','middleware' => ['permission:products.view']],function(){
     Route::get('/', 'ProductsController@index');
+    Route::get('/export-pdf', 'ProductsController@pdfexport');
+    Route::get('/stock-report', 'ProductsController@stockreport');
 });
 
 Route::group(['prefix'=>'products','middleware' => ['permission:products.add']],function(){

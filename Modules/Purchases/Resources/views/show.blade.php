@@ -39,7 +39,7 @@
                       @foreach($data->PurchasedProducts as $pp)
                       <tr class="text-center">
                         <td>{{$i++}}</td>
-                        <td>{{ProductName($pp->product_name)}}</td>
+                        <td>{{ProductName($pp->product_id)}}</td>
                         <td>{{$pp->unit_cost}}</td>
                         <td>{{$pp->quantity}}</td>
                         <td>{{$pp->total_product_cost}}</td>

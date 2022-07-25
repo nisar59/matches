@@ -13,6 +13,10 @@
 
 Route::group(['prefix'=>'stocktransfer','middleware' => ['permission:stocktransfer.view']],function(){
     Route::get('/', 'StockTransferController@index');
+    Route::POST('/search', 'StockTransferController@search');
+    Route::get('/show/{id}', 'StockTransferController@show');
+    Route::get('/report', 'StockTransferController@report');
+
 });
 
 Route::group(['prefix'=>'stocktransfer','middleware' => ['permission:stocktransfer.add']],function(){

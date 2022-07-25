@@ -16,7 +16,7 @@ class CreatePurchasesTable extends Migration
         Schema::create('purchases', function (Blueprint $table) {
             $table->id();
             $table->integer('vendor')->default(0);
-            $table->text('order_date')->default(now());
+            $table->dateTime('order_date')->useCurrent();
             $table->text('reference_no')->nullable();
             $table->integer('total_items')->default(0);
             $table->float('gross_total', 10,2)->default(0.00);
@@ -27,7 +27,7 @@ class CreatePurchasesTable extends Migration
             $table->text('discount_type')->nullable();
             $table->float('discount_value',10,2)->default(0.00);
             $table->float('net_discount',10,2)->default(0.00);
-            $table->text('shipping_status',['processing','pending','delivered'])->default('processing');
+            $table->enum('shipping_status',['processing','pending','delivered'])->default('processing');
             $table->text('shipping_address')->nullable();
             $table->float('shipping_charges',10,2)->default(0.00);
             $table->text('shipping_detail')->nullable();

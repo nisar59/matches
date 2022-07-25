@@ -8,8 +8,10 @@ use Illuminate\Routing\Controller;
 use Modules\Units\Entities\Units;
 use Modules\Category\Entities\Category;
 use Modules\Products\Entities\Products;
+use Modules\WarehousesAndShops\Entities\WarehousesAndShops;
 use Yajra\DataTables\Facades\DataTables;
 use Auth;
+use Mpdf\Mpdf;
 class ProductsController extends Controller
 {
     /**
@@ -20,7 +22,23 @@ class ProductsController extends Controller
     {
 
     if (request()->ajax()) {
-        $products=Products::select('*')->orderBy('id','ASC')->get();
+        $req=request();
+        $products=Products::select('*')->orderBy('id','ASC');
+
+            if($req->name!=null){
+                $products->where('name',$req->name);
+            }
+            if($req->sku!=null){
+                $products->where('sku',$req->sku);
+            }
+            if($req->category!=null){
+                $products->where('category',$req->category);
+            }
+            if($req->unit!=null){
+                $products->where('pricing_unit',$req->unit);
+            }
+            $products->get();
+            
             return DataTables::of($products)
                 ->addColumn('action', function ($row) {
                     $action='';
@@ -65,10 +83,90 @@ class ProductsController extends Controller
                 ->rawColumns(['image','action'])
                 ->make(true);
     }
-
-
-        return view('products::index');
+        $this->data['units']=Units::all();
+        $this->data['category']=Category::all();
+        return view('products::index')->withData($this->data);
     }
+
+    public function stockreport()
+    {
+
+    if (request()->ajax()) {
+        $req=request();
+        $products=Products::has('ProductsStock')->with('ProductsStock')->select('*')->orderBy('id','ASC');
+
+            if($req->name!=null){
+                $products->where('name',$req->name);
+            }
+            if($req->sku!=null){
+                $products->where('sku',$req->sku);
+            }
+            if($req->category!=null){
+                $products->where('category',$req->category);
+            }
+            if($req->unit!=null){
+                $products->where('pricing_unit',$req->unit);
+            }
+            $products->get();
+            
+            return DataTables::of($products)
+
+                ->editColumn('name', function ($row) {
+                    return $row->name;
+                })
+                ->editColumn('sku', function ($row) {
+                    return $row->sku;
+                })
+                ->editColumn('pricing_unit', function ($row) {
+                    if($row->UnitRel!=null){
+                    return $row->UnitRel->name;
+                    }                
+                })
+                ->editColumn('price', function ($row) {
+                    if($row->ProductsStock!=null){
+                    return $row->ProductsStock->first()->unit_cost;
+                    }                
+                })
+                ->editColumn('category', function ($row) {
+                    if($row->CategoryRel!=null){
+                    return $row->CategoryRel->name;
+                    }
+                })
+                ->editColumn('available_quantity', function ($row) {
+                    if($row->ProductsStock!=null){
+                    return $row->ProductsStock->sum('available_quantity');
+                    }
+                })
+                ->editColumn('sold_quantity', function ($row) {
+                    if($row->ProductsStock!=null){
+                    return $row->ProductsStock->sum('sold_quantity');
+                    }
+                })
+
+                ->make(true);
+    }
+        $this->data['units']=Units::all();
+        $this->data['category']=Category::all();
+        return view('products::stock-report')->withData($this->data);
+    }
+
+    public function pdfexport()
+    {
+        $this->data['products']=Products::all();
+        $html=view('products::export-pdf')->withData($this->data)->render();
+
+        $mpdf = new Mpdf(['orientation'=>'L',]);
+        $mpdf->AddPageByArray([
+            'margin-left' => 5,
+            'margin-right' => 5,
+            'margin-top' => 2,
+            'margin-bottom' => 0,
+        ]);
+        $mpdf->WriteHTML($html);
+        $mpdf->Output();
+    }
+
+
 
     /**
      * Show the form for creating a new resource.

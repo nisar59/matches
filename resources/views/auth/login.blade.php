@@ -38,7 +38,7 @@
                 @csrf
                   <div class="form-group">
                     <label for="email">Email</label>
-                    <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" tabindex="1" required autofocus  value="{{ old('email') }}">
+                    <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" tabindex="1" placeholder="Email" required autofocus  value="{{ old('email') }}">
                     <div class="invalid-feedback">
                       Please fill in your email
                     </div>
@@ -52,7 +52,7 @@
                     <div class="d-block">
                       <label for="password" class="control-label">Password</label>
                     </div>
-                    <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" tabindex="2" required>
+                    <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" tabindex="2" placeholder="Password" required>
                     <div class="invalid-feedback">
                       please fill in your password
                     </div>
